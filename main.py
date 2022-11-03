@@ -5,6 +5,7 @@ from pyperclip import copy
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 # Code used from Password Generator Project completed earlier
 
+
 def generate_password():
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
                     'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
@@ -71,7 +72,8 @@ password_label = Label(text="Password:").grid(column=0, row=3)
 password_entry = Entry(width=21)
 password_entry.grid(column=1, row=3, sticky="w")
 
-password_button = Button(text="Generate Password", width=11, command=generate_password).grid(column=2, row=3, columnspan=1, sticky="w")
+password_button = Button(text="Generate Password", width=11, command=generate_password).grid(
+    column=2, row=3, columnspan=1, sticky="w")
 
 add_button = Button(text="Add", width=33, command=save).grid(column=1, row=4, columnspan=2)
 
