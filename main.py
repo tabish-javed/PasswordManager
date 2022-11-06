@@ -1,4 +1,3 @@
-from hashlib import new
 from tkinter import Tk, Canvas, PhotoImage, Label, Entry, Button, END, messagebox
 from random import choice, randint, shuffle
 from pyperclip import copy
@@ -61,6 +60,23 @@ def save():
             password_entry.delete(0, END)
 
 
+# ------------------------- FIND PASSWORD ---------------------------- #
+def find_password():
+    website = website_entry.get()
+    try:
+        with open("data.json", mode="r") as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        messagebox.showerror(title="Error", message="No data file found")
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title="Password Found", message=f"email: {email}\nPassword: {password}")
+        else:
+            messagebox.showerror(title="Alert", message="No detail for the website exists")
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("MyPass")
@@ -73,9 +89,12 @@ canvas.grid(column=1, row=0)
 
 website_label = Label(text="Website:").grid(column=0, row=1)
 
-website_entry = Entry(width=36)
-website_entry.grid(column=1, row=1, columnspan=2, sticky="w")
+website_entry = Entry(width=21)
+website_entry.grid(column=1, row=1, sticky="w")
 website_entry.focus()
+
+search_button = Button(text="Search", width=11, command=find_password)
+search_button.grid(column=2, row=1)
 
 email_label = Label(text="Email/Username:").grid(column=0, row=2)
 email_entry = Entry(width=36)
