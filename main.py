@@ -1,7 +1,8 @@
+from hashlib import new
 from tkinter import Tk, Canvas, PhotoImage, Label, Entry, Button, END, messagebox
 from random import choice, randint, shuffle
 from pyperclip import copy
-
+import json
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 # Code used from Password Generator Project completed earlier
 
@@ -35,14 +36,27 @@ def save():
     email = email_entry.get()
     password = password_entry.get()
 
+    new_data = {
+        website: {
+            "email": email,
+            "password": password,
+        }
+    }
+
     if len(website) == 0 or len(password) == 0:
         messagebox.showerror(title="Empty Fields", message="Do not leave fields empty")
     else:
-        is_ok = messagebox.askokcancel(
-            title=website, message=f"Is this looks good? \nEmail: {email}\nPassword: {password}")
-        if is_ok:
-            with open("passwords.txt", mode="a") as file:
-                file.write(f"{website} | {email} | {password}\n")
+        try:
+            with open("data.json", mode="r") as file:
+                data = json.load(file)
+        except FileNotFoundError:
+            with open("data.json", mode="w") as file:
+                json.dump(new_data, file, indent=4)
+        else:
+            data.update(new_data)
+            with open("data.json", mode="w") as file:
+                json.dump(data, file, indent=4)
+        finally:
             website_entry.delete(0, END)
             password_entry.delete(0, END)
 
