@@ -72,6 +72,7 @@ def find_password():
         if website in data:
             email = data[website]["email"]
             password = data[website]["password"]
+            copy(password)  # Added copy method to copy found password to clipboard
             messagebox.showinfo(title="Password Found", message=f"email: {email}\nPassword: {password}")
         else:
             messagebox.showerror(title="Alert", message="No detail for the website exists")
